@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harmony</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      animation: fadeOut 2s ease 3s forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    .background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('images/background.jpg') center/cover no-repeat;
+      filter: grayscale(100%) brightness(0.3);
+      z-index: -2;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .pfp {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid white;
+      margin-bottom: 20px;
+    }
+
+    .bio {
+      font-size: 1.5em;
+      margin: 20px 0;
+      color: #fff;
+      text-shadow: 0 0 5px #aaa;
+    }
+
+    .icons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .icons a img {
+      width: 50px;
+      height: 50px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: grayscale(1) brightness(1.2);
+    }
+
+    .icons a img:hover {
+      transform: scale(1.2);
+      filter: brightness(2);
+    }
+
+    audio {
+      margin-top: 40px;
+      filter: invert(1);
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">"The light shines in the darkness..." - John 1:5</div>
+  <div class="background"></div>
+  <canvas id="particles"></canvas>
+
+  <div class="container">
+    <img src="images/pfp.png" alt="Profile Picture" class="pfp"/>
+    <div class="bio">Before Harmony...<strong>Painful</strong> was there</div>
+
+    <div class="icons">
+      <a href="https://namemc.com/profile/Harmoney.2" target="_blank">
+        <img src="images/namemc.png" alt="NameMC" />
+      </a>
+      <a href="https://www.youtube.com/@hhizzoo" target="_blank">
+        <img src="images/youtube.png" alt="YouTube" />
+      </a>
+      <a href="#">
+        <img src="images/twitter.png" alt="Twitter" />
+      </a>
+      <a href="#">
+        <img src="images/soundcloud.png" alt="SoundCloud" />
+      </a>
+    </div>
+
+    <audio controls autoplay loop>
+      <source src="audios/audio.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    // Particles Background
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.8 + 0.5,
+        d: Math.random() * 1.5 + 0.2
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255,255,255,0.5)";
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.y += p.d;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+
+    // Resize canvas on window resize
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
